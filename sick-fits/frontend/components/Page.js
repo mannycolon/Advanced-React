@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled, { ThemeProvider, injectGlobal } from 'styled-components';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import Header from './Header'
 import Meta from './Meta'
 
@@ -17,8 +17,7 @@ const StyledPage = styled.div`
   background: white;
   color: ${props => props.theme.black};
 `
-
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'radnika_next';
     src: url('/static/radnikanext-medium-webfont.woff2') format('woff2');
@@ -55,11 +54,14 @@ class Page extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <StyledPage>
-          <Meta/>
-          <Header/>
-          <Inner>{this.props.children}</Inner>
-        </StyledPage>
+        <React.Fragment>
+          <GlobalStyle/>
+          <StyledPage>
+            <Meta/>
+            <Header/>
+            <Inner>{this.props.children}</Inner>
+          </StyledPage>
+        </React.Fragment>
       </ThemeProvider>
     );
   }
