@@ -1,7 +1,9 @@
-const Query = {
-  dogs(parent, args, context, info) {
-    return [{ name: 'snickers' }, { name: 'sunny' }]
-  }
-};
+async function items(parent, args, context, info) {
+  const items = context.prisma.items()
 
-module.exports = Query;
+  return items
+}
+
+module.exports = {
+  items
+};
