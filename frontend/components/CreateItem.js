@@ -28,17 +28,41 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
   state = {
-    title: 'shoe',
-    description: 'nice shoe',
-    image: 'dog.jpg',
-    largeImage: 'large-dog.jpg',
+    title: '',
+    description: '',
+    image: '',
+    largeImage: '',
     price: 0,
   }
 
   handleChange = (event) => {
     const { name, type, value } = event.target
-    const val = type === 'number' ? parseFloat(value) : value
+    let val = type === 'number' ? parseFloat(value) : value
     this.setState({ [name]: val })
+  }
+
+  uploadFile = async e => {
+    const files = e.target.files
+
+    if (files.length > 0) {
+      console.log('Uploading file ...')
+      const data = new FormData()
+      data.append('file', files[0])
+      data.append('upload_preset', 'sickfits')
+  
+      const res = await fetch('https://api.cloudinary.com/v1_1/macp/image/upload', {
+        method: 'POST',
+        body: data
+      })
+  
+      const file = await res.json()
+      console.log(file)
+  
+      this.setState({
+        image: file.secure_url,
+        largeImage: file.eager[0].secure_url
+      })
+    }
   }
 
   render() {
@@ -47,8 +71,8 @@ class CreateItem extends Component {
       price,
       description,
       image,
-      largeImage,
     } = this.state
+    const noImage = !(image.length > 0)
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { loading, error }) => (
@@ -66,6 +90,19 @@ class CreateItem extends Component {
           }}>
             <ErrorMessage error={error}/>
             <fieldset disabled={loading} aria-busy={loading}>
+              <label htmlFor="file">
+                Image
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  placeholder="Upload an image"
+                  required
+                  onChange={this.uploadFile}
+                />
+                {image && <img src={image} width={200} alt="Upload Preview"/>}
+              </label>
+    
               <label htmlFor="title">
                 Title
                 <input
@@ -101,7 +138,9 @@ class CreateItem extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <button type="submit">Submit</button>
+              <button type="submit" disabled={noImage} >
+                Submit
+              </button>
             </fieldset>
           </Form>
         )}
