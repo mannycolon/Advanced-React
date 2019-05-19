@@ -14,5 +14,5 @@ type Mutation {
 
 type Query {
  items: [Item!]!
- item(itemId: ID!): Item
+ item(id: ID!): Item
 }

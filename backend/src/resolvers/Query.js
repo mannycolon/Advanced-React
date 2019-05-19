@@ -5,7 +5,7 @@ async function items(parent, args, context, info) {
 }
 
 async function item(parent, args, context, info) {
-  return context.prisma.item({ id: args.itemId })
+  return context.prisma.item({ id: args.id })
 }
 
 module.exports = {
