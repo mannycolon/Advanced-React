@@ -138,7 +138,7 @@ class CreateItem extends Component {
                   onChange={this.handleChange}
                 />
               </label>
-              <button type="submit" disabled={noImage} >
+              <button type="submit" disabled={noImage}>
                 Submit
               </button>
             </fieldset>
