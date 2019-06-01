@@ -19,6 +19,16 @@ const mutations = {
         id: args.id
       }
     })
+  },
+  async deleteItem(parent, args, context) {
+    // const where = { id: args.id }
+
+    // 1. find the item
+    // const item = await ctx.prisma.item({ where }, `{ id title}`)
+    // 2. check if they own that item, or hve the permissions
+    // TODO:
+    // 3. Delete it!
+    return context.prisma.deleteItem({ id: args.id })
   }
 };
 

@@ -49,11 +49,9 @@ class UpdateItem extends Component {
 
   updateItem = async (e, updateItemMutation) => {
     console.log('Updating Item!!')
-    console.log(this.state)
     // stop the form from submitting
     e.preventDefault()
     // call the mutation
-    console.log(this.props.id)
     const res = await updateItemMutation({
       variables : {
         id: this.props.id,

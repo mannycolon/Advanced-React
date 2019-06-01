@@ -86,7 +86,6 @@ class CreateItem extends Component {
               pathname: '/item',
               query: { id: res.data.createItem.id }
             })
-            console.log(res)
           }}>
             <ErrorMessage error={error}/>
             <fieldset disabled={loading} aria-busy={loading}>
