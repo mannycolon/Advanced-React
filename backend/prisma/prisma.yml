@@ -5,6 +5,8 @@ datamodel: datamodel.prisma
 generate:
   - generator: javascript-client
     output: ../src/generated/prisma-client
+  - generator: graphql-schema # <-- Add graphql-schema generator so it can be imported into schema.graphql
+    output: ../src/generated/prisma.graphql
 hooks:
   post-deploy:
     - prisma generate --env-file variables.env
