@@ -13,7 +13,7 @@ const DELETE_ITEM_MUTATION = gql`
 
 class DeleteItem extends Component {
   update = (cache, payload) => {
-    // manually the cache on the client, so it matches the server
+    // manually update the cache on the client, so it matches the server
     // 1. Read the cache for the items we want
     const data = cache.readQuery({ query: ALL_ITEMS_QUERY })
     console.log('data', data)
