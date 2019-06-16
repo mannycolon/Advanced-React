@@ -1,5 +1,9 @@
 async function items(parent, args, context, info) {
-  const items = context.prisma.items()
+  const items = context.prisma.items({
+    orderBy: args.orderBy,
+    first: args.first,
+    skip: args.skip,
+  })
 
   return items
 }

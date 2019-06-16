@@ -16,15 +16,7 @@ type Mutation {
 }
 
 type Query {
-  items: [Item!]!
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int): [Item!]!
   itemsConnection(where: ItemWhereInput): ItemConnection!
   item(id: ID!): Item
 }
-
-# type ItemConnection {
-#   aggregate: AggregateItem!
-# }
-
-# type AggregateItem {
-#   count: Int!
-# }
