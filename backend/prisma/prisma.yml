@@ -7,6 +7,11 @@ generate:
     output: ../src/generated/prisma-client
   - generator: graphql-schema # <-- Add graphql-schema generator so it can be imported into schema.graphql
     output: ../src/generated/prisma.graphql
-hooks:
-  post-deploy:
-    - prisma generate --env-file variables.env
+# Warning: The `prisma generate` command was executed twice. 
+# Since Prisma 1.31, the Prisma client is generated automatically 
+# after running `prisma deploy`. It is not necessary to generate 
+# it via a `post-deploy` hook any more, you can therefore remove 
+# the hook if you do not need it otherwise.
+# hooks:
+#   post-deploy:
+#     - prisma generate --env-file variables.env
