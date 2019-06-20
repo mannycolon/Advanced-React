@@ -24,8 +24,18 @@ async function itemsConnection(parent, args, context, info) {
   }
 }
 
+async function me(parent, args, context, info) {
+  // check if there is a current user ID
+  if (!context.request.userId) {
+    return null
+  }
+
+  return context.prisma.user({ id: context.request.userId }, info)
+}
+
 module.exports = {
   items,
   itemsConnection,
-  item
+  item,
+  me
 };
