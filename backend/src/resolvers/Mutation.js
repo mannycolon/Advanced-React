@@ -55,6 +55,27 @@ const mutations = {
     })
     // finally return the user to the browser
     return user
+  },
+  async signin(parent, { email, password }, context, info) {
+    // check if there is a user with that email
+    const user = await context.prisma.user({ email })
+    if (!user) {
+      throw new Error(`No such user found for email ${email}`)
+    }
+    // check if password if correct
+    const valid = await bcrypt.compare(password, user.password)
+    if (!valid) {
+      return new Error('Invalid Password!')
+    }
+    // Generate the JWT token
+    const token = jwt.sign({ userId: user.id, }, process.env.APP_SECRET)
+    // Set the cookie with the token
+    context.response.cookie('token', token, {
+      httpOnly: true, // make it not accesible by browser Javascript
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+    })
+    // Return the user
+    return user;
   }
 };
 
