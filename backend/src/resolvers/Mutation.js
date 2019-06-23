@@ -119,7 +119,7 @@ const mutations = {
     // Hash the new password
     const password = await bcrypt.hash(args.password, 10);
     // Save the new password to the user and remove old reset token fields
-    const updatedUser = context.prisma.updateUser({
+    const updatedUser = await context.prisma.updateUser({
       where: { email: user.email },
       data: {
         password,
