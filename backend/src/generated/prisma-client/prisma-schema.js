@@ -22,6 +22,7 @@ type Item {
   image: String
   largeImage: String
   price: Int!
+  user: User!
 }
 
 type ItemConnection {
@@ -37,6 +38,7 @@ input ItemCreateInput {
   image: String
   largeImage: String
   price: Int!
+  user: UserCreateOneInput!
 }
 
 type ItemEdge {
@@ -92,6 +94,7 @@ input ItemUpdateInput {
   image: String
   largeImage: String
   price: Int
+  user: UserUpdateOneRequiredInput
 }
 
 input ItemUpdateManyMutationInput {
@@ -181,6 +184,7 @@ input ItemWhereInput {
   price_lte: Int
   price_gt: Int
   price_gte: Int
+  user: UserWhereInput
   AND: [ItemWhereInput!]
   OR: [ItemWhereInput!]
   NOT: [ItemWhereInput!]
@@ -274,6 +278,11 @@ input UserCreateInput {
   permissions: UserCreatepermissionsInput
 }
 
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreatepermissionsInput {
   set: [Permission!]
 }
@@ -326,6 +335,15 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: UserUpdatepermissionsInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -344,8 +362,20 @@ input UserUpdateManyMutationInput {
   permissions: UserUpdatepermissionsInput
 }
 
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdatepermissionsInput {
   set: [Permission!]
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
