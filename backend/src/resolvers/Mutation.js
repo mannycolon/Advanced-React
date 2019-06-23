@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { randomBytes } = require('crypto')
+const { promisify } = require('util')
 
 const mutations = {
   async createItem(parent, args, context, info) {
@@ -80,6 +82,60 @@ const mutations = {
   signout(parent, args, context, info) {
     context.response.clearCookie('token');
     return { message: 'Succesful signout' }
+  },
+  async requestReset(parent, { email }, context, info) {
+    // Check if is a real user.
+    const user = await context.prisma.user({ email })
+    if (!user) {
+      throw new Error(`No such user found for email ${email}`)
+    }
+    // Set a reset token and expiry for that user.
+    const resetToken = (await promisify(randomBytes)(20)).toString('hex')
+    const resetTokenExpiry = Date.now() + 3600000 // 1 Hour from now
+    const res = await context.prisma.updateUser({
+      where: { email },
+      data: { resetToken, resetTokenExpiry }
+    })
+    return { message: 'Succesful email reset request' }
+    // Email them the reset token.
+  },
+  async resetPassword(parent, args, context, info) {
+    // Check if the passwords match
+    if (args.password !== args.confirmPassword) {
+      throw Error('Your passwords don\'t match.')
+    }
+    // Check if its a legit resetToken
+    // check if its expired
+    const [user] = await context.prisma.users({
+      where: {
+        resetToken: args.resetToken,
+        resetTokenExpiry_gte: Date.now() - 3600000
+      }
+    })
+
+    if (!user) {
+      throw Error('This token is either invalid or expired.')
+    }
+    // Hash the new password
+    const password = await bcrypt.hash(args.password, 10);
+    // Save the new password to the user and remove old reset token fields
+    const updatedUser = context.prisma.updateUser({
+      where: { email: user.email },
+      data: {
+        password,
+        resetToken: null,
+        resetTokenExpiry: null
+      }
+    })
+    // Generate JWT token
+    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET)
+    // Set JWT cookie
+    context.response.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+    })
+    // Return the new user
+    return updatedUser
   }
 };
 

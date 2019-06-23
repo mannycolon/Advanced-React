@@ -173,8 +173,8 @@ export type UserOrderByInput =
   | "password_DESC"
   | "resetToken_ASC"
   | "resetToken_DESC"
-  | "resetTokenExpery_ASC"
-  | "resetTokenExpery_DESC";
+  | "resetTokenExpiry_ASC"
+  | "resetTokenExpiry_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -199,7 +199,7 @@ export interface UserUpdateManyMutationInput {
   email?: Maybe<String>;
   password?: Maybe<String>;
   resetToken?: Maybe<String>;
-  resetTokenExpery?: Maybe<Float>;
+  resetTokenExpiry?: Maybe<Float>;
   permissions?: Maybe<UserUpdatepermissionsInput>;
 }
 
@@ -216,7 +216,7 @@ export interface UserUpdateInput {
   email?: Maybe<String>;
   password?: Maybe<String>;
   resetToken?: Maybe<String>;
-  resetTokenExpery?: Maybe<Float>;
+  resetTokenExpiry?: Maybe<Float>;
   permissions?: Maybe<UserUpdatepermissionsInput>;
 }
 
@@ -311,14 +311,14 @@ export interface UserWhereInput {
   resetToken_not_starts_with?: Maybe<String>;
   resetToken_ends_with?: Maybe<String>;
   resetToken_not_ends_with?: Maybe<String>;
-  resetTokenExpery?: Maybe<Float>;
-  resetTokenExpery_not?: Maybe<Float>;
-  resetTokenExpery_in?: Maybe<Float[] | Float>;
-  resetTokenExpery_not_in?: Maybe<Float[] | Float>;
-  resetTokenExpery_lt?: Maybe<Float>;
-  resetTokenExpery_lte?: Maybe<Float>;
-  resetTokenExpery_gt?: Maybe<Float>;
-  resetTokenExpery_gte?: Maybe<Float>;
+  resetTokenExpiry?: Maybe<Float>;
+  resetTokenExpiry_not?: Maybe<Float>;
+  resetTokenExpiry_in?: Maybe<Float[] | Float>;
+  resetTokenExpiry_not_in?: Maybe<Float[] | Float>;
+  resetTokenExpiry_lt?: Maybe<Float>;
+  resetTokenExpiry_lte?: Maybe<Float>;
+  resetTokenExpiry_gt?: Maybe<Float>;
+  resetTokenExpiry_gte?: Maybe<Float>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -434,7 +434,7 @@ export interface UserCreateInput {
   email: String;
   password: String;
   resetToken?: Maybe<String>;
-  resetTokenExpery?: Maybe<Float>;
+  resetTokenExpiry?: Maybe<Float>;
   permissions?: Maybe<UserCreatepermissionsInput>;
 }
 
@@ -465,7 +465,7 @@ export interface UserPreviousValues {
   email: String;
   password: String;
   resetToken?: String;
-  resetTokenExpery?: Float;
+  resetTokenExpiry?: Float;
   permissions: Permission[];
 }
 
@@ -477,7 +477,7 @@ export interface UserPreviousValuesPromise
   email: () => Promise<String>;
   password: () => Promise<String>;
   resetToken: () => Promise<String>;
-  resetTokenExpery: () => Promise<Float>;
+  resetTokenExpiry: () => Promise<Float>;
   permissions: () => Promise<Permission[]>;
 }
 
@@ -489,7 +489,7 @@ export interface UserPreviousValuesSubscription
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   resetToken: () => Promise<AsyncIterator<String>>;
-  resetTokenExpery: () => Promise<AsyncIterator<Float>>;
+  resetTokenExpiry: () => Promise<AsyncIterator<Float>>;
   permissions: () => Promise<AsyncIterator<Permission[]>>;
 }
 
@@ -580,7 +580,7 @@ export interface User {
   email: String;
   password: String;
   resetToken?: String;
-  resetTokenExpery?: Float;
+  resetTokenExpiry?: Float;
   permissions: Permission[];
 }
 
@@ -590,7 +590,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   email: () => Promise<String>;
   password: () => Promise<String>;
   resetToken: () => Promise<String>;
-  resetTokenExpery: () => Promise<Float>;
+  resetTokenExpiry: () => Promise<Float>;
   permissions: () => Promise<Permission[]>;
 }
 
@@ -602,7 +602,7 @@ export interface UserSubscription
   email: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   resetToken: () => Promise<AsyncIterator<String>>;
-  resetTokenExpery: () => Promise<AsyncIterator<Float>>;
+  resetTokenExpiry: () => Promise<AsyncIterator<Float>>;
   permissions: () => Promise<AsyncIterator<Permission[]>>;
 }
 
@@ -614,7 +614,7 @@ export interface UserNullablePromise
   email: () => Promise<String>;
   password: () => Promise<String>;
   resetToken: () => Promise<String>;
-  resetTokenExpery: () => Promise<Float>;
+  resetTokenExpiry: () => Promise<Float>;
   permissions: () => Promise<Permission[]>;
 }
 

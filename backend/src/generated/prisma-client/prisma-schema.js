@@ -254,7 +254,7 @@ type User {
   email: String!
   password: String!
   resetToken: String
-  resetTokenExpery: Float
+  resetTokenExpiry: Float
   permissions: [Permission!]!
 }
 
@@ -270,7 +270,7 @@ input UserCreateInput {
   email: String!
   password: String!
   resetToken: String
-  resetTokenExpery: Float
+  resetTokenExpiry: Float
   permissions: UserCreatepermissionsInput
 }
 
@@ -294,8 +294,8 @@ enum UserOrderByInput {
   password_DESC
   resetToken_ASC
   resetToken_DESC
-  resetTokenExpery_ASC
-  resetTokenExpery_DESC
+  resetTokenExpiry_ASC
+  resetTokenExpiry_DESC
 }
 
 type UserPreviousValues {
@@ -304,7 +304,7 @@ type UserPreviousValues {
   email: String!
   password: String!
   resetToken: String
-  resetTokenExpery: Float
+  resetTokenExpiry: Float
   permissions: [Permission!]!
 }
 
@@ -331,7 +331,7 @@ input UserUpdateInput {
   email: String
   password: String
   resetToken: String
-  resetTokenExpery: Float
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
 }
 
@@ -340,7 +340,7 @@ input UserUpdateManyMutationInput {
   email: String
   password: String
   resetToken: String
-  resetTokenExpery: Float
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
 }
 
@@ -419,14 +419,14 @@ input UserWhereInput {
   resetToken_not_starts_with: String
   resetToken_ends_with: String
   resetToken_not_ends_with: String
-  resetTokenExpery: Float
-  resetTokenExpery_not: Float
-  resetTokenExpery_in: [Float!]
-  resetTokenExpery_not_in: [Float!]
-  resetTokenExpery_lt: Float
-  resetTokenExpery_lte: Float
-  resetTokenExpery_gt: Float
-  resetTokenExpery_gte: Float
+  resetTokenExpiry: Float
+  resetTokenExpiry_not: Float
+  resetTokenExpiry_in: [Float!]
+  resetTokenExpiry_not_in: [Float!]
+  resetTokenExpiry_lt: Float
+  resetTokenExpiry_lte: Float
+  resetTokenExpiry_gt: Float
+  resetTokenExpiry_gte: Float
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
