@@ -76,6 +76,10 @@ const mutations = {
     })
     // Return the user
     return user;
+  },
+  signout(parent, args, context, info) {
+    context.response.clearCookie('token');
+    return { message: 'Succesful signout' }
   }
 };
 
