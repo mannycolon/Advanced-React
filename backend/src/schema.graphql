@@ -20,6 +20,7 @@ type Query {
   itemsConnection(where: ItemWhereInput): ItemConnection!
   item(id: ID!): Item
   me: User
+  users: [User]!
 }
 
 type User {

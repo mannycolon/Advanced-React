@@ -2,6 +2,7 @@ const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 require('dotenv').config({ path: 'variables.env'})
 const createServer = require('./createServer')
+const { prisma } = require('./generated/prisma-client')
 
 const server = createServer()
 
@@ -15,6 +16,22 @@ server.express.use((req, res, next) => {
     // Put userId onto the req or future requests to access
     req.userId = userId
   }
+  next()
+})
+
+// Middleware that populates the user on each request
+server.express.use(async (req, res, next) => {
+  // if they aren't logged in, skip
+  if (req.userId) {
+    const user = await prisma.user({ id: req.userId })
+    req.user = {
+      id: user.id,
+      permissions: user.permissions,
+      email: user.email,
+      name: user.name
+    }
+  }
+
   next()
 })
 

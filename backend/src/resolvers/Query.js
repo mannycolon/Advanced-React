@@ -1,3 +1,5 @@
+const { hasPermission } = require('../utils')
+
 async function items(parent, args, context, info) {
   const items = await context.prisma.items({
     orderBy: args.orderBy,
@@ -33,9 +35,22 @@ async function me(parent, args, context, info) {
   return context.prisma.user({ id: context.request.userId }, info)
 }
 
+async function users(parent, args, context, info) {
+  // Check if the user is logged in
+  if (!context.request.userId) {
+    throw new Error('You must be logged in')
+  }
+  // Check if the user has the permissions to query all the users
+  // const user = context.prisma.user({ id: context.request.userId })
+  hasPermission(context.request.user, ['ADMIN', 'PERMISSIONUPDATE'])
+  // Query all the users
+  return context.prisma.users()
+}
+
 module.exports = {
   items,
   itemsConnection,
   item,
-  me
+  me,
+  users
 };
