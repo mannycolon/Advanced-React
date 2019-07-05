@@ -51,8 +51,7 @@ const mutations = {
         }
       }
     `
-    const item = await context.prisma.item({ id: args.id })
-      .$fragment(fragment)
+    const item = await context.prisma.item({ id: args.id }).$fragment(fragment)
     // 2. check if they own that item, or hve the permissions
     const ownsItem = item.user.id === context.request.userId
     const hasPermissions = context.request.user.permissions.some(permission => ['ADMIN', 'ITEMDELETE'].includes(permission))
