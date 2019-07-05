@@ -41,12 +41,24 @@ const mutations = {
     })
   },
   async deleteItem(parent, args, context) {
-    // const where = { id: args.id }
-
     // 1. find the item
-    // const item = await ctx.prisma.item({ where }, `{ id title}`)
+    const fragment = `
+      fragment itemWithProps on Item {
+        id
+        title
+        user {
+          id
+        }
+      }
+    `
+    const item = await context.prisma.item({ id: args.id })
+      .$fragment(fragment)
     // 2. check if they own that item, or hve the permissions
-    // TODO:
+    const ownsItem = item.user.id === context.request.userId
+    const hasPermissions = context.request.user.permissions.some(permission => ['ADMIN', 'ITEMDELETE'].includes(permission))
+    if (!ownsItem && !hasPermissions) {
+      throw Error('You dont have permission to do that')
+    }
     // 3. Delete it!
     return context.prisma.deleteItem({ id: args.id })
   },
