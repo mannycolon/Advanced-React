@@ -3,13 +3,18 @@ const jwt = require('jsonwebtoken')
 const { randomBytes } = require('crypto')
 const { promisify } = require('util')
 const { transport, makeNiceEmail } = require('../mail')
+const { hasPermission } = require('../utils')
+
+const checkIfLoggedIn = (context) => {
+  if (!context.request.userId) {
+    throw Error('You must be logged in to do that!')
+  }
+}
+
 
 const mutations = {
   async createItem(parent, args, context, info) {
-    if (!context.request.userId) {
-      throw Error('You must be logged in to do that!')
-    }
-
+    checkIfLoggedIn(context)
     const item = await context.prisma.createItem({
       // This is how to create a relationship between the Item and the User
       user: {
@@ -155,6 +160,25 @@ const mutations = {
     })
     // Return the new user
     return updatedUser
+  },
+  async updatePermissions(parent, args, context, info) {
+    // Check if user is logged in
+    checkIfLoggedIn(context)
+    // Query the current user
+    const user = await context.prisma.user({ id: context.request.userId }, info)
+    // Check if User has permissions to do this
+    hasPermission(user, ['UPDATE', 'PERMISSIONUPDATE'])
+    // Update permissions
+    return context.prisma.updateUser({
+      where: {
+        id: args.userId
+      },
+      data: {
+        permissions: {
+          set: args.permissions
+        }
+      }
+    })
   }
 };
 
