@@ -190,6 +190,34 @@ const mutations = {
         }
       }
     })
+  },
+  async addToCart(parent, args, context, info) {
+    // Make sure they are signed in
+    checkIfLoggedIn(context)
+    // Query the user's current cart
+    const [existingCartItem] = await context.prisma.cartItems({
+      where: {
+        user: { id: context.request.userId },
+        item: { id: args.id },
+      }
+    })
+    // Check if item is already in their cart and increment by one if it is.
+    if (existingCartItem) {
+      console.log('This item is already in their cart')
+      return context.prisma.updateCartItem({
+        where: { id: existingCartItem.id },
+        data: { quantity: existingCartItem.quantity + 1 }
+      })
+    }
+    // if its not, create a fresh cartItem for user
+    return context.prisma.createCartItem({
+      user: {
+        connect: { id: context.request.userId }
+      },
+      item: {
+        connect: { id: args.id }
+      }
+    })
   }
 };
 

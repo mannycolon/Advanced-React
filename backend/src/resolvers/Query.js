@@ -32,7 +32,7 @@ async function me(parent, args, context, info) {
     return null
   }
 
-  return context.prisma.user({ id: context.request.userId }, info)
+  return context.prisma.user({ id: context.request.userId })
 }
 
 async function users(parent, args, context, info) {
