@@ -218,6 +218,26 @@ const mutations = {
         connect: { id: args.id }
       }
     })
+  },
+  async removeFromCart(parent, args, context, info) {
+    // Find cart Item
+    const fragment = `
+    fragment cartItemWithProps on cartItem {
+      id
+      user {
+        id
+      }
+    }
+  `
+    const cartItem = await context.prisma.cartItem({ id: args.id }).$fragment(fragment)
+    // Make sure we found cartItem
+    if (!cartItem) throw Error('No cartItem found')
+    // Make sure they own the cart item
+    if (context.request.userId !== cartItem.user.id) {
+      throw Error('You dont own this cartItem')
+    }
+    // Delete cart item
+    return context.prisma.deleteCartItem({ id: args.id })
   }
 };
 
