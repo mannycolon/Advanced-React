@@ -27,9 +27,6 @@ const Cart = () => {
     <User>
       {({ data: { me } }) => {
         if (!me) return null
-        console.log('====================================');
-        console.log(me);
-        console.log('====================================');
         return (
           <Mutation mutation={TOGGLE_CART_MUTATION}>
             {(toggleCart) => (
