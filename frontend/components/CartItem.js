@@ -19,6 +19,13 @@ const CartItemStyles = styled.li`
 `
 
 const CartItem = ({ cartItem: { id, item, quantity } }) => {
+  // Check if item exists
+  if (!item) return (
+    <CartItemStyles>
+      <p>This Item has been removed</p>
+      <RemoveFromCart id={id} />
+    </CartItemStyles>
+  )
   return (
     <CartItemStyles>
       <img src={item.image} width="100" alt={item.title}/>
