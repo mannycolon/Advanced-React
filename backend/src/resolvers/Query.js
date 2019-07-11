@@ -2,9 +2,7 @@ const { hasPermission } = require('../utils')
 
 async function items(parent, args, context, info) {
   const items = await context.prisma.items({
-    orderBy: args.orderBy,
-    first: args.first,
-    skip: args.skip,
+    ...args
   })
 
   return items
