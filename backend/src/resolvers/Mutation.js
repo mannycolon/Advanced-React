@@ -4,6 +4,7 @@ const { randomBytes } = require('crypto')
 const { promisify } = require('util')
 const { transport, makeNiceEmail } = require('../mail')
 const { hasPermission } = require('../utils')
+const stripe = require('../stripe')
 
 const checkIfLoggedIn = (context) => {
   if (!context.request.userId) {
@@ -222,13 +223,13 @@ const mutations = {
   async removeFromCart(parent, args, context, info) {
     // Find cart Item
     const fragment = `
-    fragment cartItemWithProps on cartItem {
-      id
-      user {
+      fragment cartItemWithProps on cartItem {
         id
+        user {
+          id
+        }
       }
-    }
-  `
+    `
     const cartItem = await context.prisma.cartItem({ id: args.id }).$fragment(fragment)
     // Make sure we found cartItem
     if (!cartItem) throw Error('No cartItem found')
@@ -238,6 +239,44 @@ const mutations = {
     }
     // Delete cart item
     return context.prisma.deleteCartItem({ id: args.id })
+  },
+  async createOrder(parent, args, ctx, info) {
+    // Query current user & make sure they are signed in
+    checkIfLoggedIn(ctx)
+    const fragment = `
+      fragment userWithProps on user {
+        id
+        name
+        email
+        cart {
+          id
+          quantity
+          item {
+            id
+            title
+            price
+            description
+            image
+          }
+        }
+      }
+    `
+    const user = await ctx.prisma.user({ id: ctx.request.userId }).$fragment(fragment)
+    // Recalculate the total price
+    const amount = user.cart.reduce((tally, cartItem) => {
+      return tally + cartItem.item.price * cartItem.quantity;
+    }, 0);
+    console.log(`Charging for a total of ${amount}`)
+    // Create the stripe charge (Turn token into $$$)
+    const charge = await stripe.charges.create({
+      amount,
+      currency: 'USD',
+      source: args.token,
+    })
+    // Convert the cartItems to OrderItems
+    // Create the order
+    // Clean up - Clear the user's cart, Delete cartItems
+    // Return order to client
   }
 };
 

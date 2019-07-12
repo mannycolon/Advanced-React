@@ -19,6 +19,14 @@ var models = [
   {
     name: "CartItem",
     embedded: false
+  },
+  {
+    name: "OrderItem",
+    embedded: false
+  },
+  {
+    name: "Order",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
