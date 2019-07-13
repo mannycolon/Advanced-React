@@ -21,6 +21,11 @@ function createServer () {
         item(parent) {
           return prisma.cartItem({ id: parent.id }).item()
         }
+      },
+      Order: {
+        items(parent) {
+          return prisma.order({ id: parent.id }).items()
+        }
       }
     },
     resolverValidationOptions: {

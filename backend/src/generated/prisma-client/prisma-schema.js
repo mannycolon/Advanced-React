@@ -485,8 +485,8 @@ type OrderItem {
   id: ID!
   title: String!
   description: String!
-  image: String
-  largeImage: String
+  image: String!
+  largeImage: String!
   price: Int!
   quantity: Int!
   user: User!
@@ -502,8 +502,8 @@ input OrderItemCreateInput {
   id: ID
   title: String!
   description: String!
-  image: String
-  largeImage: String
+  image: String!
+  largeImage: String!
   price: Int!
   quantity: Int
   user: UserCreateOneInput!
@@ -540,8 +540,8 @@ type OrderItemPreviousValues {
   id: ID!
   title: String!
   description: String!
-  image: String
-  largeImage: String
+  image: String!
+  largeImage: String!
   price: Int!
   quantity: Int!
 }

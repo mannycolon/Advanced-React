@@ -1008,8 +1008,8 @@ export interface OrderItemCreateInput {
   id?: Maybe<ID_Input>;
   title: String;
   description: String;
-  image?: Maybe<String>;
-  largeImage?: Maybe<String>;
+  image: String;
+  largeImage: String;
   price: Int;
   quantity?: Maybe<Int>;
   user: UserCreateOneInput;
@@ -1754,8 +1754,8 @@ export interface OrderItemPreviousValues {
   id: ID_Output;
   title: String;
   description: String;
-  image?: String;
-  largeImage?: String;
+  image: String;
+  largeImage: String;
   price: Int;
   quantity: Int;
 }
@@ -2005,8 +2005,8 @@ export interface OrderItem {
   id: ID_Output;
   title: String;
   description: String;
-  image?: String;
-  largeImage?: String;
+  image: String;
+  largeImage: String;
   price: Int;
   quantity: Int;
 }

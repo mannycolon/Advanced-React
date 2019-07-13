@@ -204,7 +204,6 @@ const mutations = {
     })
     // Check if item is already in their cart and increment by one if it is.
     if (existingCartItem) {
-      console.log('This item is already in their cart')
       return context.prisma.updateCartItem({
         where: { id: existingCartItem.id },
         data: { quantity: existingCartItem.quantity + 1 }
@@ -257,6 +256,7 @@ const mutations = {
             price
             description
             image
+            largeImage
           }
         }
       }
@@ -266,7 +266,6 @@ const mutations = {
     const amount = user.cart.reduce((tally, cartItem) => {
       return tally + cartItem.item.price * cartItem.quantity;
     }, 0);
-    console.log(`Charging for a total of ${amount}`)
     // Create the stripe charge (Turn token into $$$)
     const charge = await stripe.charges.create({
       amount,
@@ -274,9 +273,27 @@ const mutations = {
       source: args.token,
     })
     // Convert the cartItems to OrderItems
+    const orderItems = user.cart.map(cartItem => {
+      const orderItem = {
+        ...cartItem.item,
+        quantity: cartItem.quantity,
+        user: { connect: { id: ctx.request.userId }},
+      }
+      delete orderItem.id
+      return orderItem
+    })
     // Create the order
+    const order = await ctx.prisma.createOrder({
+      total: charge.amount,
+      charge: charge.id,
+      items: { create: orderItems },
+      user: { connect: { id: ctx.request.userId }},
+    })
     // Clean up - Clear the user's cart, Delete cartItems
+    const cartItemIds = user.cart.map(cartItem => cartItem.id)
+    await ctx.prisma.deleteManyCartItems({ id_in: cartItemIds })
     // Return order to client
+    return order
   }
 };
 
