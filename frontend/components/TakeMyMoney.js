@@ -53,7 +53,7 @@ class TakeMyMoney extends Component {
                 name="sick-fits"
                 description={`Order of ${totalItems(me.cart)} items!`}
                 amount={calcTotalPrice(me.cart)}
-                image={me.cart[0].item && me.cart[0].item.image}
+                image={me.cart.length && me.cart[0].item && me.cart[0].item.image}
                 stripeKey="pk_test_eTRToAUBCiC7J99ApzexND2D00vhtA9K6j"
                 currency="USD"
                 email={me.email}
