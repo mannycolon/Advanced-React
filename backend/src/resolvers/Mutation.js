@@ -3,15 +3,8 @@ const jwt = require('jsonwebtoken')
 const { randomBytes } = require('crypto')
 const { promisify } = require('util')
 const { transport, makeNiceEmail } = require('../mail')
-const { hasPermission } = require('../utils')
+const { hasPermission, checkIfLoggedIn } = require('../utils')
 const stripe = require('../stripe')
-
-const checkIfLoggedIn = (context) => {
-  if (!context.request.userId) {
-    throw Error('You must be logged in to do that!')
-  }
-}
-
 
 const mutations = {
   async createItem(parent, args, context, info) {

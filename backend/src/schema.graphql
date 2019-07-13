@@ -25,6 +25,7 @@ type Query {
   item(id: ID!): Item
   me: User
   users: [User]!
+  order(id:ID!): Order
 }
 
 type User {

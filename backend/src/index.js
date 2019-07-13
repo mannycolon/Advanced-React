@@ -23,13 +23,16 @@ server.express.use((req, res, next) => {
 server.express.use(async (req, res, next) => {
   // if they aren't logged in, skip
   if (req.userId) {
-    const user = await prisma.user({ id: req.userId })
-    req.user = {
-      id: user.id,
-      permissions: user.permissions,
-      email: user.email,
-      name: user.name
-    }
+    const fragment = `
+      fragment userWithProps on user {
+        id
+        permissions
+        email
+        name
+      }
+    `
+    const user = await prisma.user({ id: req.userId }).$fragment(fragment)
+    req.user = user;
   }
 
   next()
