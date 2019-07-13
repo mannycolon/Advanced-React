@@ -73,6 +73,15 @@ const query = {
     // Return the order
     return order
   },
+  async orders(parent, args, ctx, info) {
+    // Check if the user is logged in
+    checkIfLoggedIn(ctx)
+    return ctx.prisma.orders({
+      where: {
+        user: { id: ctx.request.userId }
+      }
+    })
+  }
 }
 
 module.exports = query;
