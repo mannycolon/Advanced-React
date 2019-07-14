@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Item/> renders and matches the snapshot 1`] = `
+<ForwardRef>
+  <img
+    alt="A Cool Item"
+    src="gog.jpg"
+  />
+  <ForwardRef>
+    <Link
+      href={
+        Object {
+          "pathname": "/item",
+          "query": Object {
+            "id": "abc1234",
+          },
+        }
+      }
+    >
+      <a>
+        A Cool Item
+      </a>
+    </Link>
+  </ForwardRef>
+  <ForwardRef>
+    $40
+  </ForwardRef>
+  <p>
+    This Item is really cool!
+  </p>
+  <div
+    className="buttonList"
+  >
+    <Link
+      href={
+        Object {
+          "pathname": "update",
+          "query": Object {
+            "id": "abc1234",
+          },
+        }
+      }
+    >
+      <a>
+        Edit ✏️
+      </a>
+    </Link>
+    <AddToCart
+      id="abc1234"
+    />
+    <DeleteItem
+      id="abc1234"
+    >
+      Delete Item
+    </DeleteItem>
+  </div>
+</ForwardRef>
+`;

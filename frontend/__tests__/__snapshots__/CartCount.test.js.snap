@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CartCount/> Matches the snapshot 1`] = `
+<ForwardRef>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <CSSTransition
+      className="count"
+      classNames="count"
+      key="11"
+      timeout={
+        Object {
+          "enter": 400,
+          "exit": 400,
+        }
+      }
+      unmountOnExit={true}
+    >
+      <ForwardRef>
+        11
+      </ForwardRef>
+    </CSSTransition>
+  </TransitionGroup>
+</ForwardRef>
+`;
+
+exports[`<CartCount/> updates via props 1`] = `
+<ForwardRef>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <CSSTransition
+      className="count"
+      classNames="count"
+      key="50"
+      timeout={
+        Object {
+          "enter": 400,
+          "exit": 400,
+        }
+      }
+      unmountOnExit={true}
+    >
+      <ForwardRef>
+        50
+      </ForwardRef>
+    </CSSTransition>
+  </TransitionGroup>
+</ForwardRef>
+`;
+
+exports[`<CartCount/> updates via props 2`] = `
+<ForwardRef>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <CSSTransition
+      className="count"
+      classNames="count"
+      key="10"
+      timeout={
+        Object {
+          "enter": 400,
+          "exit": 400,
+        }
+      }
+      unmountOnExit={true}
+    >
+      <ForwardRef>
+        10
+      </ForwardRef>
+    </CSSTransition>
+  </TransitionGroup>
+</ForwardRef>
+`;
