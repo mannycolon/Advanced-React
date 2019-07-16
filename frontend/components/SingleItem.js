@@ -21,7 +21,7 @@ const SingleItemStyles = styled.div`
   .details {
     margin: 3rem;
     font-size: 2rem;
-    
+
   }
 `
 
@@ -43,7 +43,7 @@ class SingleItem extends Component {
       <Query query={SINGLE_ITEM_QUERY} variables={{ id }}>
         {({error, loading, data}) => {
           if (error) return <Error error={error}/>
-          if (loading) return <p>Loading!</p>
+          if (loading) return <p>Loading...</p>
           if (!data.item) return <p>No item found for {id}</p>
           const { item } = data;
           return <SingleItemStyles>
@@ -63,3 +63,4 @@ class SingleItem extends Component {
 }
 
 export default SingleItem;
+export { SINGLE_ITEM_QUERY }
