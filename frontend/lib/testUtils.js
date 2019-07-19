@@ -20,7 +20,7 @@ const fakeUser = () => ({
   name: casual.name,
   email: casual.email,
   permissions: ['ADMIN'],
-  orders: [],
+  // orders: [],
   cart: [],
 });
 

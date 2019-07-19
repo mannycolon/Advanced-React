@@ -15,11 +15,6 @@ global.fetch = jest.fn().mockResolvedValue({
   })
 })
 
-// Router.router = {
-//   push() {},
-//   prefetch() {},
-// }
-
 describe('<CreateItem/>', () => {
   it('renders and matches snapshot', async () => {
     const wrapper = mount (
