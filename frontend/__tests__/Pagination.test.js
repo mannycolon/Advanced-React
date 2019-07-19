@@ -2,8 +2,8 @@ import { mount } from 'enzyme'
 import wait from 'waait'
 import Router from 'next/router'
 import toJSON from 'enzyme-to-json'
-import Pagination, { PAGINATION_QUERY } from '../components/Pagination'
 import { MockedProvider } from 'react-apollo/test-utils';
+import Pagination, { PAGINATION_QUERY } from '../components/Pagination'
 
 Router.router = {
   push() {},

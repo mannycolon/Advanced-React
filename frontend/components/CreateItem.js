@@ -4,7 +4,6 @@ import gql from 'graphql-tag'
 import Router from 'next/router'
 import Form from './styles/Form'
 import ErrorMessage from './ErrorMessage'
-import formatMoney from '../lib/formatMoney'
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -49,15 +48,14 @@ class CreateItem extends Component {
       const data = new FormData()
       data.append('file', files[0])
       data.append('upload_preset', 'sickfits')
-  
+
       const res = await fetch('https://api.cloudinary.com/v1_1/macp/image/upload', {
         method: 'POST',
         body: data
       })
-  
+
       const file = await res.json()
-      console.log(file)
-  
+
       this.setState({
         image: file.secure_url,
         largeImage: file.eager[0].secure_url
@@ -76,17 +74,20 @@ class CreateItem extends Component {
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { loading, error }) => (
-          <Form onSubmit={async e => {
-            // stop the form from submitting
-            e.preventDefault()
-            // call the mutation
-            const res = await createItem()
-            // change them to the single item page
-            Router.push({
-              pathname: '/item',
-              query: { id: res.data.createItem.id }
-            })
-          }}>
+          <Form
+            data-test="form"
+            onSubmit={async e => {
+              // stop the form from submitting
+              e.preventDefault()
+              // call the mutation
+              const res = await createItem()
+              // change them to the single item page
+              Router.push({
+                pathname: '/item',
+                query: { id: res.data.createItem.id }
+              })
+            }}
+          >
             <ErrorMessage error={error}/>
             <fieldset disabled={loading} aria-busy={loading}>
               <label htmlFor="file">
@@ -101,7 +102,7 @@ class CreateItem extends Component {
                 />
                 {image && <img src={image} width={200} alt="Upload Preview"/>}
               </label>
-    
+
               <label htmlFor="title">
                 Title
                 <input
