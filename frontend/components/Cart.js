@@ -50,7 +50,7 @@ const Cart = () => {
               <p>You have {me.cart.length} item{me.cart.length === 1 ? '' : 's'} in your cart.</p>
             </header>
             <ul>
-              {me.cart.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>)}
+              {me.cart.map(cartItem => <CartItem data-test="cartItem" key={cartItem.id} cartItem={cartItem}/>)}
             </ul>
             <footer>
               <p>{formatMoney(calcTotalPrice(me.cart))}</p>
